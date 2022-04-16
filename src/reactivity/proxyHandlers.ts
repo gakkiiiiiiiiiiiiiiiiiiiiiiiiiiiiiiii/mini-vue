@@ -1,6 +1,12 @@
 import {track,trigger} from './effect'
 function createGet(isReadonly) {
   return (target, key) => {
+    if (key === '__is_readonly__') {
+      
+      return isReadonly
+    } else if (key === '__is_reactive__') {
+      return !isReadonly
+    }
     const res = Reflect.get(target,key)
     !isReadonly && track(target, key)
     return res
