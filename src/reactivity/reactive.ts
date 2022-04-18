@@ -33,3 +33,6 @@ export function isReactive(raw) {
   return !!raw[ReactiveFlag.IS_REACTIVE]
 }
 
+export function isProxy(raw) {
+  return isReadonly(raw) || isReactive(raw)
+}
