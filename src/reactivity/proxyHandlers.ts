@@ -1,7 +1,7 @@
 import { track, trigger } from './effect'
 import { reactive, readonly } from './reactive'
 import { isObject } from '../shared/index'
-function createGet(isReadonly) {
+function createGet({isReadonly=false,shallowReadonly=false}) {
   return (target, key) => {
     if (key === '__is_readonly__') {      
       return isReadonly
@@ -9,7 +9,7 @@ function createGet(isReadonly) {
       return !isReadonly
     }
     let res = Reflect.get(target, key)
-    if (isObject(res)) {
+    if (isObject(res) && !shallowReadonly) {
       res = isReadonly? readonly(res) :reactive(res)
     }
     !isReadonly && track(target, key)
@@ -17,7 +17,7 @@ function createGet(isReadonly) {
   }
 }
 
-function createSet(isReadonly) { 
+function createSet({isReadonly}) { 
     return (target, key, value) => {
       if (isReadonly) {
         console.warn(`key:${key} set fail, because target is readonly`)
@@ -31,10 +31,10 @@ function createSet(isReadonly) {
   
 }
 
-export function createProxyHandlers(isReadonly=false) {
+export function createProxyHandlers(options:any={}) {
   return {
-    get: createGet(isReadonly),
-    set: createSet(isReadonly)
+    get: createGet(options),
+    set: createSet(options)
   }
 }
 
