@@ -59,7 +59,7 @@ describe('effect', () => {
 
     expect(nextAge).toBe(11)
     stop(runner)
-    user.age++
+    user.age = 9
     expect(nextAge).toBe(11)
     runner.effect.continue()
     user.age++

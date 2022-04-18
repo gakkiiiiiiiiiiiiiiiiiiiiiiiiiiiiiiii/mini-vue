@@ -1,13 +1,17 @@
-import {track,trigger} from './effect'
+import { track, trigger } from './effect'
+import { reactive, readonly } from './reactive'
+import { isObject } from '../shared/index'
 function createGet(isReadonly) {
   return (target, key) => {
-    if (key === '__is_readonly__') {
-      
+    if (key === '__is_readonly__') {      
       return isReadonly
     } else if (key === '__is_reactive__') {
       return !isReadonly
     }
-    const res = Reflect.get(target,key)
+    let res = Reflect.get(target, key)
+    if (isObject(res)) {
+      res = isReadonly? readonly(res) :reactive(res)
+    }
     !isReadonly && track(target, key)
     return res
   }

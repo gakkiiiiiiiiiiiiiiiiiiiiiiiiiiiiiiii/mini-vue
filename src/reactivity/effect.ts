@@ -11,7 +11,9 @@ class EffectReactive{
     activeRefect = this
   }
   run() {
-    return this._fn()    
+    if (this.active) {      
+      return this._fn()    
+    }
   }
   stop() {
     this.onStop && this.onStop()
@@ -48,7 +50,7 @@ export function trigger(target, key) {
     if (_effect.scheduler) {
       _effect.scheduler()
     } else {
-      _effect.active && _effect.run()
+      _effect.run()
     }
   }
 }

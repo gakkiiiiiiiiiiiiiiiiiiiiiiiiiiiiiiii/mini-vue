@@ -26,12 +26,11 @@ describe('readonly', () => {
     expect(isReadonly(reactiveObj)).toBe(false)
   });
 
-  it('isReactive', () => {
-    const origin = { foo: 1 }
-    const readonlyObj = readonly({ foo: 2 })
-    const reactiveObj = reactive({foo:2})
-    expect(isReactive(origin)).toBe(false)
-    expect(isReactive(readonlyObj)).toBe(false)
-    expect(isReactive(reactiveObj)).toBe(true)
+  
+
+  it('nested readonly', () => {
+    const observed = readonly({ obj: { foo: 1 }, array: [1, 2, 3] })
+    expect(isReadonly(observed.obj)).toBe(true)
+    expect(isReadonly(observed.array)).toBe(true)
   });
 })
