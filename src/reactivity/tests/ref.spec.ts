@@ -1,5 +1,6 @@
 import { effect } from "../effect";
-import { ref } from "../ref";
+import { reactive } from "../reactive";
+import { ref,isRef,unRef } from "../ref";
 describe("ref", () => {
   it("happy path", () => {
     const a = ref(1);
@@ -50,5 +51,23 @@ describe("ref", () => {
     expect(calls).toBe(1);
     a.value = countObj;
     expect(calls).toBe(1);
+  });
+
+  it('isRef', () => {
+    const countObj = {count:1}
+    const a = ref(countObj);
+    const b = reactive(countObj)
+    expect(isRef(a)).toBe(true)
+    expect(isRef(b)).toBe(false)
+    expect(isRef(countObj)).toBe(false)
+  });
+
+  it('unRef', () => {
+    const obj = {value:1}
+    const a = ref(obj);
+    const reactiveObj = reactive(obj)
+    expect(unRef(a)).toStrictEqual(obj)
+    expect(unRef(obj)).toBe(obj)
+    expect(unRef(reactiveObj)).toBe(reactiveObj)
   });
 });
