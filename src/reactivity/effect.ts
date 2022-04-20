@@ -1,6 +1,6 @@
 import {extend} from '../shared'
 let activeRefect
-class EffectReactive{
+export class EffectReactive{
   private _fn
   public active = true
   public onStop?: () => void
