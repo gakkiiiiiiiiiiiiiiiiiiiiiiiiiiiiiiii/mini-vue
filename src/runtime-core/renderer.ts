@@ -27,13 +27,29 @@ function mountElement(vnode, container) {
 }
 
 function setProps(el, props) {
+	const isEvent = (key: string) => /^on[A-Z]/.test(key);
 	for (const key in props) {
 		let val = props[key];
-		if (Array.isArray(val)) {
-			val = val.join(' ');
+		if (isEvent(key)) {
+			const event = key.slice(2).toLowerCase();
+			addEventListener(el, event, val);
+		} else {
+			setAttribute(el, key, val);
 		}
-		el.setAttribute(key, val);
 	}
+}
+
+function addEventListener(el, event, fn) {
+	console.log('el', el);
+
+	el.addEventListener(event, fn);
+}
+
+function setAttribute(el, key, val) {
+	if (Array.isArray(val)) {
+		val = val.join(' ');
+	}
+	el.setAttribute(key, val);
 }
 
 function mountChildren(el, vnode) {

@@ -6,7 +6,6 @@ export function createVNode(type, props?, children?) {
 		children,
 		shapeFlag: getShapeFlag(type, children),
 	};
-	console.log('flag', vnode.shapeFlag);
 
 	return vnode;
 }
