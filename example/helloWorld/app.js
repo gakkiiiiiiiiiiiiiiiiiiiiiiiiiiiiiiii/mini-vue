@@ -28,6 +28,9 @@ export const App = {
 					obj: {
 						foo: 1,
 					},
+					onAddCount: (msg) => {
+						console.log('on-add', msg);
+					},
 				}),
 			]
 		);
