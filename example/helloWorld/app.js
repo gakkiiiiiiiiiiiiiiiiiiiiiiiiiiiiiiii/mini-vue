@@ -23,15 +23,19 @@ export const App = {
 					},
 					'click'
 				),
-				h(foo, {
-					count: 1,
-					obj: {
-						foo: 1,
+				h(
+					foo,
+					{
+						count: 1,
+						obj: {
+							foo: 1,
+						},
+						onAddCount: (msg) => {
+							console.log('on-add', msg);
+						},
 					},
-					onAddCount: (msg) => {
-						console.log('on-add', msg);
-					},
-				}),
+					[h('div', { slot: 'default' }, '123')]
+				),
 			]
 		);
 	},
