@@ -1,5 +1,6 @@
 import { isObject } from '../shared';
 import { ShapeFlags } from '../shared/shapeFlags';
+import { Text } from './renderer';
 export function createVNode(type, props?, children?) {
 	const vnode = {
 		type,
@@ -10,6 +11,11 @@ export function createVNode(type, props?, children?) {
 
 	return vnode;
 }
+
+export function createTextVNode(text: string) {
+	return createVNode(Text, {}, text);
+}
+
 function getShapeFlag(type, children) {
 	let shapeFlag = typeof type === 'string' ? ShapeFlags.ELEMENT : ShapeFlags.STATEFUL_COMPONENT;
 

@@ -4,12 +4,26 @@ export function render(vnode, container) {
 	patch(vnode, container);
 }
 
+export const Fragment = Symbol('Fragment');
+export const Text = Symbol('Text');
+
 function patch(vnode, container) {
-	const { shapeFlag } = vnode;
-	if (shapeFlag & ShapeFlags.ELEMENT) {
-		processElement(vnode, container);
-	} else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
-		processComponent(vnode, container);
+	const { shapeFlag, type } = vnode;
+
+	switch (type) {
+		case Fragment:
+			processFragment(container, vnode);
+			break;
+		case Text:
+			processText(container, vnode);
+			break;
+		default:
+			if (shapeFlag & ShapeFlags.ELEMENT) {
+				processElement(vnode, container);
+			} else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
+				processComponent(vnode, container);
+			}
+			break;
 	}
 }
 
@@ -79,4 +93,14 @@ function setupRenderEffect(instance: any, initialVnode, container) {
 	const subTree = instance.render.call(proxy);
 	patch(subTree, container);
 	initialVnode.el = subTree.el;
+}
+
+function processFragment(container, vnode) {
+	mountChildren(container, vnode);
+}
+
+function processText(container: any, vnode: any) {
+	const { children } = vnode;
+	const el = (vnode.el = document.createTextNode(children));
+	container.append(el);
 }

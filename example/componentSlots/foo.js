@@ -1,4 +1,4 @@
-import { h, renderSlots } from '../../lib/guide-mini-vue.esm.js';
+import { h, renderSlots, createTextVNode } from '../../lib/guide-mini-vue.esm.js';
 
 export const foo = {
 	render() {
@@ -6,6 +6,7 @@ export const foo = {
 		return h('div', {}, [
 			h('span', {}, 'foo'),
 			renderSlots(this.$slots, 'header', { age }),
+			createTextVNode('textNode'),
 			renderSlots(this.$slots, 'footer'),
 		]);
 	},
