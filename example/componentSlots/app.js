@@ -1,4 +1,4 @@
-import { h } from '../../lib/guide-mini-vue.esm.js';
+import { h, getCurrentInstance } from '../../lib/guide-mini-vue.esm.js';
 import { foo } from './foo.js';
 window.self = null;
 export const App = {
@@ -23,8 +23,11 @@ export const App = {
 		);
 	},
 	setup() {
+		const instance = getCurrentInstance();
+		console.log({ instance });
 		return {
 			msg: 'msg',
+			name: 'app',
 			clickMsg: 'click',
 		};
 	},

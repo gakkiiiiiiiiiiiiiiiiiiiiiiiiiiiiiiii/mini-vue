@@ -22,15 +22,17 @@ export function setupComponent(instance) {
 	setupStatefulComponent(instance);
 }
 
+let currentInstance;
 function setupStatefulComponent(instance: any) {
 	const Component = instance.type;
 	instance.proxy = new Proxy(instance, PublicInstanceProxyHandlers);
 	const { setup } = Component;
 
 	if (setup) {
+		setCurrentInstance(instance);
 		const setupResult = setup(instance.props, { emit: instance.emit });
-
 		handleSetupResult(instance, setupResult);
+		setCurrentInstance(null);
 	}
 }
 
@@ -50,4 +52,12 @@ function finishComponentSetup(instance: any) {
 	if (Component.render) {
 		instance.render = Component.render;
 	}
+}
+
+function setCurrentInstance(instance) {
+	currentInstance = instance;
+}
+
+export function getCurrentInstance() {
+	return currentInstance;
 }
