@@ -1,6 +1,7 @@
 import { h, getCurrentInstance } from '../../lib/guide-mini-vue.esm.js';
 import { foo } from './foo.js';
 window.self = null;
+//
 export const App = {
 	render() {
 		window.self = this;
